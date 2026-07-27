@@ -41,6 +41,15 @@ public class PEConfig {
     /** Consume the upgrader even in creative mode. */
     public boolean consumeInCreative = false;
 
+    /** Enable sneak + sprint + right-click batch upgrading of connected machines. */
+    public boolean enableBatchUpgrade = true;
+
+    /**
+     * Max machines upgraded in one batch operation. Hard-caps the flood-fill search
+     * cost; in survival it is additionally capped by the number of upgraders in hand.
+     */
+    public int batchUpgradeLimit = 64;
+
     public static void load() {
         Path path = Services.PLATFORM.getConfigDir().resolve(FILE_NAME);
         if (Files.isRegularFile(path)) {

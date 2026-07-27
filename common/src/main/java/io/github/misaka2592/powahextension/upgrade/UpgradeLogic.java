@@ -2,7 +2,14 @@ package io.github.misaka2592.powahextension.upgrade;
 
 import io.github.misaka2592.powahextension.PowahExtension;
 import io.github.misaka2592.powahextension.config.PEConfig;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -37,6 +44,7 @@ import owmii.powah.block.Tier;
 public final class UpgradeLogic {
 
     public enum Result {
+        /** From {@link #check}: the block is eligible for the upgrade. */
         SUCCESS,
         /** The clicked block is not a tiered Powah machine. */
         NOT_MACHINE,
@@ -52,23 +60,39 @@ public final class UpgradeLogic {
     }
 
     /**
-     * Attempts to upgrade the machine at {@code pos} to {@code targetTier}.
-     * Must be called on the server side only.
+     * Checks whether the block at {@code pos} can be upgraded to {@code targetTier}.
+     * {@link Result#SUCCESS} means eligible. O(1): machine identification uses the
+     * prebuilt identity index in {@link MachineFamilies}, plus two config set lookups.
      */
-    public static Result tryUpgrade(Level level, BlockPos pos, Tier targetTier) {
-        BlockState oldState = level.getBlockState(pos);
-        MachineFamilies.Located located = MachineFamilies.locate(oldState.getBlock());
+    public static Result check(Level level, BlockPos pos, Tier targetTier) {
+        BlockState state = level.getBlockState(pos);
+        MachineFamilies.Located located = MachineFamilies.locate(state.getBlock());
         if (located == null) {
             return Result.NOT_MACHINE;
         }
         if (!PEConfig.CONFIG.enabledFamilies.contains(located.family().name())) {
             return Result.FAMILY_DISABLED;
         }
-        if (PEConfig.CONFIG.extraBlacklist.contains(BuiltInRegistries.BLOCK.getKey(oldState.getBlock()).toString())) {
+        if (PEConfig.CONFIG.extraBlacklist.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString())) {
             return Result.BLACKLISTED;
         }
         if (located.tier().ordinal() != targetTier.ordinal() - 1) {
             return Result.WRONG_TIER;
+        }
+        return Result.SUCCESS;
+    }
+
+    /**
+     * Performs the in-place block swap. Server side only; call {@link #check} first.
+     * Re-verifies the tier at execution time so stale batch targets are skipped safely.
+     *
+     * @return true if the machine was upgraded
+     */
+    public static boolean upgradeOne(Level level, BlockPos pos, Tier targetTier, boolean playSound) {
+        BlockState oldState = level.getBlockState(pos);
+        MachineFamilies.Located located = MachineFamilies.locate(oldState.getBlock());
+        if (located == null || located.tier().ordinal() != targetTier.ordinal() - 1) {
+            return false; // changed (or already upgraded) since the check
         }
 
         BlockEntity oldBlockEntity = level.getBlockEntity(pos);
@@ -82,7 +106,7 @@ public final class UpgradeLogic {
         level.removeBlockEntity(pos);
         if (!level.setBlock(pos, newState, Block.UPDATE_ALL)) {
             PowahExtension.LOGGER.warn("Failed to replace block at {} while upgrading to {}", pos, targetTier);
-            return Result.NOT_MACHINE;
+            return false;
         }
 
         BlockEntity newBlockEntity = level.getBlockEntity(pos);
@@ -95,9 +119,77 @@ public final class UpgradeLogic {
             serverLevel.sendParticles(ParticleTypes.END_ROD,
                     pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5,
                     20, 0.3, 0.3, 0.3, 0.05);
-            serverLevel.playSound(null, pos, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.5F, 1.5F);
+            if (playSound) {
+                serverLevel.playSound(null, pos, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.5F, 1.5F);
+            }
         }
+        return true;
+    }
+
+    /**
+     * Attempts to upgrade the machine at {@code pos} to {@code targetTier}.
+     * Must be called on the server side only.
+     */
+    public static Result tryUpgrade(Level level, BlockPos pos, Tier targetTier) {
+        Result result = check(level, pos, targetTier);
+        if (result != Result.SUCCESS) {
+            return result;
+        }
+        upgradeOne(level, pos, targetTier, true);
         return Result.SUCCESS;
+    }
+
+    /**
+     * Batch upgrade (sneak + sprint + right-click): upgrades the clicked machine and every
+     * connected machine this upgrader applies to, up to {@code maxCount}.
+     *
+     * <p>Performance notes:
+     * <ul>
+     *   <li>Flood fill that only expands THROUGH eligible machines — the searched region is
+     *       exactly the connected machine array; the world is never scanned by radius.</li>
+     *   <li>Eligibility is O(1) per block ({@link #check}), positions are deduplicated with a
+     *       {@link HashSet}, and the frontier uses an {@link ArrayDeque} (no recursion).</li>
+     *   <li>{@code maxCount} hard-caps both the search and the number of block swaps, so a
+     *       click on a huge cable network costs bounded time.</li>
+     * </ul>
+     *
+     * @return the number of machines actually upgraded
+     */
+    public static int batchUpgrade(Level level, BlockPos origin, Tier targetTier, int maxCount) {
+        if (maxCount <= 0) {
+            return 0;
+        }
+
+        Set<BlockPos> visited = new HashSet<>();
+        Deque<BlockPos> frontier = new ArrayDeque<>();
+        List<BlockPos> targets = new ArrayList<>();
+        visited.add(origin);
+        frontier.add(origin);
+
+        while (!frontier.isEmpty() && targets.size() < maxCount) {
+            BlockPos current = frontier.poll();
+            if (check(level, current, targetTier) != Result.SUCCESS) {
+                // Do not expand through non-eligible blocks: the flood stays inside the
+                // connected array of upgradeable machines.
+                continue;
+            }
+            targets.add(current.immutable());
+            for (Direction direction : Direction.values()) {
+                BlockPos next = current.relative(direction);
+                if (visited.add(next)) {
+                    frontier.add(next);
+                }
+            }
+        }
+
+        int upgraded = 0;
+        for (BlockPos target : targets) {
+            // Sound only on the first block of the batch; particles on each.
+            if (upgradeOne(level, target, targetTier, upgraded == 0)) {
+                upgraded++;
+            }
+        }
+        return upgraded;
     }
 
     /** Copies block state properties (facing, lit, waterlogged, ...) shared by both tiers. */

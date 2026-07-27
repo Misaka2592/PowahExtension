@@ -27,6 +27,10 @@ keeping its stored energy, inventory, tank and redstone mode.
 
 - 每个升级器都有合成配方（对应等级电容 ×4 + 对应等级材料 ×4 + 介电外壳）。
   Each upgrader is craftable (4× tier capacitor + 4× tier material + dielectric casing).
+- **批量升级**：潜行 + 疾跑（默认左 Ctrl）+ 右键，一次性升级整片连通的同目标机器
+  （洪泛填充查找，默认上限 64 台，可在配置中调整）。
+  **Batch upgrade**: sneak + sprint (left Ctrl by default) + right-click to upgrade a whole
+  connected array at once (flood-fill lookup, capped at 64 machines by default).
 - 独立创造模式物品栏；中英文双语。
   Dedicated creative tab; English & Simplified Chinese localizations.
 
@@ -49,6 +53,8 @@ Reactor（多方块 multiblock）· Ender Cell · Ender Gate
 | `extraBlacklist` | 按方块 ID 禁止升级，如 `"powah:furnator_basic"` | `[]` |
 | `playEffects` | 升级成功时播放音效和粒子 | `true` |
 | `consumeInCreative` | 创造模式下也消耗升级器 | `false` |
+| `enableBatchUpgrade` | 启用潜行+疾跑+右键批量升级 | `true` |
+| `batchUpgradeLimit` | 单次批量升级的机器数量上限（同时限制查找开销） | `64` |
 
 ## 安装 / Installation
 

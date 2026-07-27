@@ -1,7 +1,9 @@
 package io.github.misaka2592.powahextension;
 
 import io.github.misaka2592.powahextension.config.PEConfig;
+import io.github.misaka2592.powahextension.network.PENetwork;
 import io.github.misaka2592.powahextension.registry.PEItems;
+import io.github.misaka2592.powahextension.upgrade.BatchUpgradeHandler;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ public final class PowahExtension {
     public static void init() {
         PEConfig.load();
         PEItems.register();
+        PENetwork.register();
+        BatchUpgradeHandler.register();
     }
 
     public static ResourceLocation id(String path) {

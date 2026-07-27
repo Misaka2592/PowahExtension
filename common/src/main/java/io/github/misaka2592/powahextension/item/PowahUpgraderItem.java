@@ -87,6 +87,11 @@ public class PowahUpgraderItem extends Item {
                 tierName(getSourceTier()).withStyle(ChatFormatting.YELLOW),
                 tierName(this.targetTier).withStyle(ChatFormatting.GREEN))
                 .withStyle(ChatFormatting.GRAY));
+        if (PEConfig.CONFIG.enableBatchUpgrade) {
+            tooltip.add(Component.translatable("tooltip.powahextension.upgrader.batch",
+                    PEConfig.CONFIG.batchUpgradeLimit)
+                    .withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 
     private static MutableComponent tierName(Tier tier) {

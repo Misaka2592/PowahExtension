@@ -1,13 +1,11 @@
 {
     "itemGroup.powahextension": "Powah 扩展",
-
     "item.powahextension.upgrader_basic": "基础机器升级器",
     "item.powahextension.upgrader_hardened": "硬化机器升级器",
     "item.powahextension.upgrader_blazing": "烈焰机器升级器",
     "item.powahextension.upgrader_niotic": "钻石机器升级器",
     "item.powahextension.upgrader_spirited": "富生机器升级器",
     "item.powahextension.upgrader_nitro": "下界机器升级器",
-
     "tier.powahextension.starter": "初级",
     "tier.powahextension.basic": "基础",
     "tier.powahextension.hardened": "硬化",
@@ -15,9 +13,11 @@
     "tier.powahextension.niotic": "钻石",
     "tier.powahextension.spirited": "富生",
     "tier.powahextension.nitro": "下界",
-
     "tooltip.powahextension.upgrader": "潜行 + 右键一台 %s 级别的 Powah 机器，将其原地升级为 %s 级别。能量、物品和设置都会保留。",
     "message.powahextension.upgraded": "机器已升级为 %s 级别！",
     "message.powahextension.wrong_tier": "该升级器只能用于 %s 级别的机器。",
-    "message.powahextension.disabled": "该机器无法升级（已在配置中禁用）。"
+    "message.powahextension.disabled": "该机器无法升级（已在配置中禁用）。",
+    "tooltip.powahextension.upgrader.batch": "潜行 + 疾跑 + 右键：批量升级最多 %s 台相邻的机器。",
+    "message.powahextension.batch_upgraded": "已批量升级 %s 台机器！",
+    "message.powahextension.batch_none": "附近没有找到可升级的机器。"
 }

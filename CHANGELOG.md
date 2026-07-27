@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-07-27
+
+### Added
+
+- Batch upgrade: sneak + sprint (left Ctrl by default) + right-click upgrades the clicked
+  machine and every connected machine the upgrader applies to, in one click.
+  潜行 + 疾跑（默认左 Ctrl）+ 右键：一键批量升级整片连通的适用机器。
+  - Flood-fill search that only expands through eligible machines (never scans the world
+    by radius), O(1) machine lookup, hard-capped per click.
+  - One upgrader item is consumed per upgraded machine; in survival the batch is limited
+    by the stack in hand.
+- New config keys: `enableBatchUpgrade` (default `true`) and `batchUpgradeLimit`
+  (default `64`). Existing config files keep working — new keys fall back to defaults.
+
 ## [1.0.0] - 2026-07-27
 
 Initial release / 首次发布。
@@ -27,4 +41,5 @@ Initial release / 首次发布。
 - English and Simplified Chinese localizations.
 - Dedicated creative mode tab.
 
+[1.1.0]: https://github.com/Misaka2592/PowahExtension/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Misaka2592/PowahExtension/releases/tag/v1.0.0

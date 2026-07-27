@@ -1,13 +1,11 @@
 {
     "itemGroup.powahextension": "Powah Extension",
-
     "item.powahextension.upgrader_basic": "Basic Machine Upgrader",
     "item.powahextension.upgrader_hardened": "Hardened Machine Upgrader",
     "item.powahextension.upgrader_blazing": "Blazing Machine Upgrader",
     "item.powahextension.upgrader_niotic": "Niotic Machine Upgrader",
     "item.powahextension.upgrader_spirited": "Spirited Machine Upgrader",
     "item.powahextension.upgrader_nitro": "Nitro Machine Upgrader",
-
     "tier.powahextension.starter": "Starter",
     "tier.powahextension.basic": "Basic",
     "tier.powahextension.hardened": "Hardened",
@@ -15,9 +13,11 @@
     "tier.powahextension.niotic": "Niotic",
     "tier.powahextension.spirited": "Spirited",
     "tier.powahextension.nitro": "Nitro",
-
     "tooltip.powahextension.upgrader": "Sneak + right-click a %s Powah machine to upgrade it to %s tier in place. Energy, inventory and settings are kept.",
     "message.powahextension.upgraded": "Machine upgraded to %s tier!",
     "message.powahextension.wrong_tier": "This upgrader only works on %s tier machines.",
-    "message.powahextension.disabled": "This machine cannot be upgraded (disabled in the config)."
+    "message.powahextension.disabled": "This machine cannot be upgraded (disabled in the config).",
+    "tooltip.powahextension.upgrader.batch": "Sneak + sprint + right-click: batch-upgrade up to %s connected machines.",
+    "message.powahextension.batch_upgraded": "Batch-upgraded %s machines!",
+    "message.powahextension.batch_none": "No upgradeable machines found nearby."
 }
