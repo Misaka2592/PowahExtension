@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "Bash(gradle --version)",
+      "Bash(java -version)",
+      "Bash(java .tools/GenTextures.java \"common/src/main/resources/assets/powahextension/textures/item\")",
+      "Bash(chmod +x gradlew)",
+      "Bash(sh gradlew --version)",
+      "Bash(sh gradlew :forge:build --console=plain)",
+      "Bash(curl -sL --max-time 60 https://www.gnu.org/licenses/lgpl-3.0.txt -o \"d:/Personal Folder/Programming/Programming/Java/PowahExtension/LICENSE\")",
+      "Bash(awk -F/ '{print $3}')",
+      "Bash(echo \"exit=$?\")",
+      "Read(//tmp/**)",
+      "Bash(sh gradlew :common:compileJava --console=plain --stacktrace)"
+    ]
+  }
+}

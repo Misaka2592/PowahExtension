@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CMC",
+        "MDM",
+        "CMC"
+    ],
+    "key": {
+        "C": { "item": "powah:capacitor_basic" },
+        "M": { "item": "powah:dielectric_paste" },
+        "D": { "item": "powah:dielectric_casing" }
+    },
+    "result": {
+        "item": "powahextension:upgrader_basic"
+    }
+}

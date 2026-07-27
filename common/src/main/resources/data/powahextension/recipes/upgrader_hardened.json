@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CMC",
+        "MDM",
+        "CMC"
+    ],
+    "key": {
+        "C": { "item": "powah:capacitor_hardened" },
+        "M": { "item": "powah:steel_energized" },
+        "D": { "item": "powah:dielectric_casing" }
+    },
+    "result": {
+        "item": "powahextension:upgrader_hardened"
+    }
+}

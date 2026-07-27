@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CMC",
+        "MDM",
+        "CMC"
+    ],
+    "key": {
+        "C": { "item": "powah:capacitor_spirited" },
+        "M": { "item": "powah:crystal_spirited" },
+        "D": { "item": "powah:dielectric_casing" }
+    },
+    "result": {
+        "item": "powahextension:upgrader_spirited"
+    }
+}

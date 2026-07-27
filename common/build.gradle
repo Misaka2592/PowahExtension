@@ -1,0 +1,14 @@
+architectury {
+    common(rootProject.enabled_platforms.split(','))
+}
+
+dependencies {
+    // Only used for the @Environment annotations in common code. Do NOT use
+    // other fabric-loader classes here.
+    modImplementation "net.fabricmc:fabric-loader:0.15.11"
+
+    modApi "dev.architectury:architectury:${rootProject.architectury_api_version}"
+
+    // Powah! Rearchitected — vendored jar from the root libs/ flatDir (see gradle.properties).
+    modImplementation "powah:powah-forge:${rootProject.powah_version}"
+}

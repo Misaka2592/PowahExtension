@@ -1,0 +1,61 @@
+plugins {
+    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id 'dev.architectury.loom' version '1.4-SNAPSHOT' apply false
+}
+
+architectury {
+    minecraft = rootProject.minecraft_version
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'architectury-plugin'
+    apply plugin: 'maven-publish'
+
+    base {
+        archivesName = rootProject.archives_base_name
+    }
+
+    version = rootProject.mod_version
+    group = rootProject.mod_group
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        withSourcesJar()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.release = 17
+    }
+}
+
+subprojects {
+    apply plugin: 'dev.architectury.loom'
+
+    loom {
+        silentMojangMappingsLicense()
+    }
+
+    repositories {
+        // Aliyun mirror of Maven Central — much more reliable from CN networks.
+        maven { url = 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+        // Vendored mod jars (Powah — see note in gradle.properties)
+        flatDir { dirs rootProject.file('libs') }
+        // Architectury API
+        maven { url = 'https://maven.architectury.dev/' }
+        // Modrinth maven (other mods)
+        maven { url = 'https://api.modrinth.com/maven' }
+        // Cloth Config (Powah runtime dependency)
+        maven { url = 'https://maven.shedaniel.me/' }
+        // Fabric loader annotations used in common
+        maven { url = 'https://maven.fabricmc.net/' }
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings loom.officialMojangMappings()
+    }
+}
