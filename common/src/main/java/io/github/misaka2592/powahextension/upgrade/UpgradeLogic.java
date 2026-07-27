@@ -54,6 +54,8 @@ public final class UpgradeLogic {
         BLACKLISTED,
         /** The machine is not exactly one tier below the upgrader. */
         WRONG_TIER,
+        /** The eligibility check passed, but the block could not be replaced. */
+        UPGRADE_FAILED,
     }
 
     private UpgradeLogic() {
@@ -135,8 +137,7 @@ public final class UpgradeLogic {
         if (result != Result.SUCCESS) {
             return result;
         }
-        upgradeOne(level, pos, targetTier, true);
-        return Result.SUCCESS;
+        return upgradeOne(level, pos, targetTier, true) ? Result.SUCCESS : Result.UPGRADE_FAILED;
     }
 
     /**
