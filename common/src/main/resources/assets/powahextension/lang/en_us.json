@@ -19,5 +19,7 @@
     "message.powahextension.disabled": "This machine cannot be upgraded (disabled in the config).",
     "tooltip.powahextension.upgrader.batch": "Sneak + sprint + right-click: batch-upgrade up to %s connected machines.",
     "message.powahextension.batch_upgraded": "Batch-upgraded %s machines!",
-    "message.powahextension.batch_none": "No upgradeable machines found nearby."
+    "message.powahextension.batch_none": "No upgradeable machines found nearby.",
+    "item.powahextension.guide": "PowahExtension Guide",
+    "item.powahextension.guide.tooltip": "Machine upgraders: usage, batch mode, recipes"
 }

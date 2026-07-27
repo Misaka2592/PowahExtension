@@ -29,6 +29,16 @@ dependencies {
     modImplementation "powah:powah-forge:${rootProject.powah_version}"
     modImplementation "me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}"
 
+    // Dev-runtime QoL mods: JEI shows our recipes in-game, GuideME renders the guide,
+    // ModernUI improves text rendering. None of these are compile-time dependencies.
+    // NOTE: use the self-contained Modrinth JEI jar — the modmaven.dev artifacts are
+    // split (forge jar misses the common classes at runtime).
+    modRuntimeOnly "maven.modrinth:jei:${rootProject.jei_version}"
+    modRuntimeOnly "maven.modrinth:guideme:${rootProject.guideme_version}"
+    modRuntimeOnly "maven.modrinth:modern-ui:${rootProject.modernui_version}"
+    modRuntimeOnly "maven.modrinth:guideme:${rootProject.guideme_version}"
+    modRuntimeOnly "maven.modrinth:modern-ui:${rootProject.modernui_version}"
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionForge')) { transitive = false }
 }

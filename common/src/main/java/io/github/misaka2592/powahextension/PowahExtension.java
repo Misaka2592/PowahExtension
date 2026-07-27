@@ -1,5 +1,7 @@
 package io.github.misaka2592.powahextension;
 
+import dev.architectury.event.events.client.ClientTickEvent;
+import io.github.misaka2592.powahextension.client.BatchPreview;
 import io.github.misaka2592.powahextension.config.PEConfig;
 import io.github.misaka2592.powahextension.network.PENetwork;
 import io.github.misaka2592.powahextension.registry.PEItems;
@@ -26,6 +28,15 @@ public final class PowahExtension {
         PEItems.register();
         PENetwork.register();
         BatchUpgradeHandler.register();
+    }
+
+    /**
+     * Client-only init. Call through {@code EnvExecutor.runInEnv(Env.CLIENT, ...)} so the
+     * client classes ({@link BatchPreview}, {@code Minecraft}) are never referenced on a
+     * dedicated server.
+     */
+    public static void initClient() {
+        ClientTickEvent.CLIENT_PRE.register(BatchPreview::clientTick);
     }
 
     public static ResourceLocation id(String path) {

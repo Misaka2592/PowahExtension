@@ -1,0 +1,15 @@
+{
+  "default_language": "en_us",
+  "item_settings": {
+    "display_name": {
+      "type": "translatable",
+      "translate": "item.powahextension.guide"
+    },
+    "tooltip_lines": [
+      {
+        "translate": "item.powahextension.guide.tooltip",
+        "color": "dark_gray"
+      }
+    ]
+  }
+}

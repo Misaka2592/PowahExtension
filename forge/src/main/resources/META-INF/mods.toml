@@ -37,3 +37,11 @@ issueTrackerURL="https://github.com/Misaka2592/PowahExtension/issues"
     versionRange="[9.0.0,)"
     ordering="AFTER"
     side="BOTH"
+
+# Optional: enables the in-game guide book (recipe: book + dielectric paste)
+[[dependencies.${mod_id}]]
+    modId="guideme"
+    mandatory=false
+    versionRange="[20.1.0,)"
+    ordering="AFTER"
+    side="BOTH"

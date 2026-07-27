@@ -19,5 +19,7 @@
     "message.powahextension.disabled": "该机器无法升级（已在配置中禁用）。",
     "tooltip.powahextension.upgrader.batch": "潜行 + 疾跑 + 右键：批量升级最多 %s 台相邻的机器。",
     "message.powahextension.batch_upgraded": "已批量升级 %s 台机器！",
-    "message.powahextension.batch_none": "附近没有找到可升级的机器。"
+    "message.powahextension.batch_none": "附近没有找到可升级的机器。",
+    "item.powahextension.guide": "Powah 扩展指南",
+    "item.powahextension.guide.tooltip": "机器升级器：用法、批量模式与配方"
 }

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-27
+
+### Added
+
+- Batch upgrade preview: while holding sneak + sprint with an upgrader, every machine the
+  batch would affect is outlined in the upgrader's tier color. The target list is computed
+  client-side with the same flood fill as the real upgrade (rate-limited to once per 10
+  ticks or on target change, so rendering stays cheap).
+  批量升级预览：按住潜行+疾跑时，所有将被升级的机器显示等级颜色边框。
+- In-game guide book via [GuideME](https://modrinth.com/mod/guideme) (optional dependency):
+  craft `book + dielectric paste` for the PowahExtension guide — upgraders, usage,
+  batch mode and config reference, in English and Chinese.
+  游戏内指南（可选依赖 GuideME）：书 + 介电浆糊 合成，中英文页面。
+- Dev environment: JEI (recipe viewing) and ModernUI added as runtime-only mods.
+
 ## [1.1.0] - 2026-07-27
 
 ### Added
@@ -41,5 +56,6 @@ Initial release / 首次发布。
 - English and Simplified Chinese localizations.
 - Dedicated creative mode tab.
 
+[1.2.0]: https://github.com/Misaka2592/PowahExtension/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Misaka2592/PowahExtension/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Misaka2592/PowahExtension/releases/tag/v1.0.0

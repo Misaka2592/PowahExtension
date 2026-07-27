@@ -50,6 +50,11 @@ subprojects {
         maven { url = 'https://api.modrinth.com/maven' }
         // Cloth Config (Powah runtime dependency)
         maven { url = 'https://maven.shedaniel.me/' }
+        // JEI (dev runtime only)
+        maven {
+            url = 'https://modmaven.dev/'
+            content { includeGroup 'mezz.jei' }
+        }
         // Fabric loader annotations used in common
         maven { url = 'https://maven.fabricmc.net/' }
     }

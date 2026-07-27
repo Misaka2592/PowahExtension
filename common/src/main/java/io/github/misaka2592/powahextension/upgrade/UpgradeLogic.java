@@ -140,8 +140,10 @@ public final class UpgradeLogic {
     }
 
     /**
-     * Batch upgrade (sneak + sprint + right-click): upgrades the clicked machine and every
-     * connected machine this upgrader applies to, up to {@code maxCount}.
+     * Collects the positions a batch upgrade starting at {@code origin} would affect:
+     * the clicked machine plus every connected machine this upgrader applies to,
+     * up to {@code maxCount}. Read-only — used by both the server-side
+     * {@link #batchUpgrade} and the client-side target preview.
      *
      * <p>Performance notes:
      * <ul>
@@ -149,15 +151,13 @@ public final class UpgradeLogic {
      *       exactly the connected machine array; the world is never scanned by radius.</li>
      *   <li>Eligibility is O(1) per block ({@link #check}), positions are deduplicated with a
      *       {@link HashSet}, and the frontier uses an {@link ArrayDeque} (no recursion).</li>
-     *   <li>{@code maxCount} hard-caps both the search and the number of block swaps, so a
-     *       click on a huge cable network costs bounded time.</li>
+     *   <li>{@code maxCount} hard-caps the search, so a click on a huge cable network costs
+     *       bounded time.</li>
      * </ul>
-     *
-     * @return the number of machines actually upgraded
      */
-    public static int batchUpgrade(Level level, BlockPos origin, Tier targetTier, int maxCount) {
+    public static List<BlockPos> collectTargets(Level level, BlockPos origin, Tier targetTier, int maxCount) {
         if (maxCount <= 0) {
-            return 0;
+            return List.of();
         }
 
         Set<BlockPos> visited = new HashSet<>();
@@ -181,9 +181,18 @@ public final class UpgradeLogic {
                 }
             }
         }
+        return targets;
+    }
 
+    /**
+     * Batch upgrade (sneak + sprint + right-click): upgrades everything
+     * {@link #collectTargets} finds, up to {@code maxCount}.
+     *
+     * @return the number of machines actually upgraded
+     */
+    public static int batchUpgrade(Level level, BlockPos origin, Tier targetTier, int maxCount) {
         int upgraded = 0;
-        for (BlockPos target : targets) {
+        for (BlockPos target : collectTargets(level, origin, targetTier, maxCount)) {
             // Sound only on the first block of the batch; particles on each.
             if (upgradeOne(level, target, targetTier, upgraded == 0)) {
                 upgraded++;

@@ -31,6 +31,13 @@ keeping its stored energy, inventory, tank and redstone mode.
   （洪泛填充查找，默认上限 64 台，可在配置中调整）。
   **Batch upgrade**: sneak + sprint (left Ctrl by default) + right-click to upgrade a whole
   connected array at once (flood-fill lookup, capped at 64 machines by default).
+- **批量预览**：按住潜行 + 疾跑看向机器时，所有将被升级的机器会显示等级颜色的边框。
+  **Batch preview**: while holding sneak + sprint, every machine the batch would affect
+  is outlined in the upgrader's tier color.
+- **游戏内指南**（可选，需 [GuideME](https://modrinth.com/mod/guideme)）：
+  书 + 介电浆糊 合成指南书。
+  **In-game guide** (optional, requires [GuideME](https://modrinth.com/mod/guideme)):
+  craft book + dielectric paste.
 - 独立创造模式物品栏；中英文双语。
   Dedicated creative tab; English & Simplified Chinese localizations.
 
@@ -61,7 +68,8 @@ Reactor（多方块 multiblock）· Ender Cell · Ender Gate
 1. 安装 Minecraft 1.20.1 + Forge 47+。
 2. 安装依赖：[Powah! Rearchitected](https://modrinth.com/mod/powah) 5.0.x 与
    [Architectury API](https://modrinth.com/mod/architectury-api) 9.x（及 Powah 前置 Cloth Config）。
-3. 将本模组 jar 放入 `mods` 文件夹。
+3. 可选：[GuideME](https://modrinth.com/mod/guideme) —— 启用游戏内指南书。
+4. 将本模组 jar 放入 `mods` 文件夹。
 
 ## 构建 / Build
 
